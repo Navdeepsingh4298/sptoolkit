@@ -72,6 +72,8 @@ function DrawerAppBar(props) {
             <MenuIcon />
           </IconButton>
           <IconButton
+            component="a"
+            href="/"
             sx={{ display: { xs: 'none', sm: 'block' } }}
             color="inherit">
             <HandymanIcon />
