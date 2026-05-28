@@ -1,6 +1,5 @@
-// mui components
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -19,42 +18,59 @@ import {
   TableHead,
   TableRow,
   Paper,
-} from '@mui/material';
+} from "@mui/material";
 
-// local components
-import DrawerAppBar from '../../components/appbar/DrawerAppBar';
-
-// data
-import jsScriptsData from '../../data/JsScripts/JsScripts.json';
-import xmlScriptsData from '../../data/xmlScripts/xmlScripts.json';
-
-import scriptCategories from '../../data/scriptCategories';
-
-const codeModules = import.meta.glob('../../data/**/code.txt', { eager: true, as: 'raw' });
-const codeByFolder = Object.fromEntries(
-  Object.entries(codeModules).map(([path, content]) => {
-    const folder = path.split('/')[path.split('/').length - 2];
-    return [folder, content];
-  })
-);
+import DrawerAppBar from "../../components/appbar/DrawerAppBar";
 
 const ScriptLibrary = () => {
-  const [selectedScript, setSelectedScript] = useState(scriptCategories[0].value);
+  const [selectedScript, setSelectedScript] = useState("");
+  const [scriptCategories, setScriptCategories] = useState([]);
+  const [jsScriptsData, setJsScriptsData] = useState({ scripts: [] });
+  const [xmlScriptsData, setXmlScriptsData] = useState({ scripts: [] });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Load categories
+        const categoriesRes = await fetch("/data/scriptCategories.json");
+        const categories = categoriesRes.ok ? await categoriesRes.json() : [];
+        console.log("Loaded categories:", categories);
+        setScriptCategories(categories);
+        if (categories.length > 0) {
+          setSelectedScript(categories[0].value);
+        }
+
+        // Load JS + XML script metadata
+        const jsRes = await fetch("/data/JsScripts/JsScripts.json");
+        const xmlRes = await fetch("/data/xmlScripts/xmlScripts.json");
+
+        const jsData = jsRes.ok ? await jsRes.json() : { scripts: [] };
+        const xmlData = xmlRes.ok ? await xmlRes.json() : { scripts: [] };
+
+        setJsScriptsData(jsData);
+        setXmlScriptsData(xmlData);
+      } catch (err) {
+        console.error("Error loading script data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   let selectedData = [];
-
   switch (selectedScript) {
-    case 'jsScripts':
+    case "jsScripts":
       selectedData = jsScriptsData.scripts;
       break;
-    case 'xmlScripts':
+    case "xmlScripts":
       selectedData = xmlScriptsData.scripts;
       break;
     default:
       break;
   }
-
-
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -64,16 +80,29 @@ const ScriptLibrary = () => {
           Script Library
         </Typography>
         <Typography variant="body1" color="text.secondary" paragraph>
-          Find a curated collection of ready-to-use script snippets, organized for quick access and fast integration.
+          Find a curated collection of ready-to-use script snippets, organized
+          for quick access and fast integration.
         </Typography>
 
-        <Card sx={{ mb: 4, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
+        <Card
+          sx={{
+            mb: 4,
+            bgcolor: "primary.light",
+            color: "primary.contrastText",
+          }}
+        >
           <CardContent>
             <Typography variant="body1" paragraph>
               Select a script category below to see available scripts.
             </Typography>
-            <FormControl fullWidth variant="outlined" sx={{ mt: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
-              <InputLabel id="script-select-label">Select script category</InputLabel>
+            <FormControl
+              fullWidth
+              variant="outlined"
+              sx={{ mt: 2, bgcolor: "background.paper", borderRadius: 1 }}
+            >
+              <InputLabel id="script-select-label">
+                Select script category
+              </InputLabel>
               <Select
                 labelId="script-select-label"
                 id="script-select"
@@ -91,43 +120,46 @@ const ScriptLibrary = () => {
           </CardContent>
         </Card>
 
-        <TableContainer component={Paper} sx={{ mt: 2 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {selectedData.map((script) => (
-                <TableRow key={script.id}>
-                  <TableCell>{script.snippetName}</TableCell>
-                  <TableCell>{script.description}</TableCell>
-                  <TableCell>
-                    <Button
-                      component={RouterLink}
-                      to={`/scripts/${script.id}`}
-                      state={{
-                        snippet: {
-                          name: script.snippetName,
-                          description: script.description,
-                          code: codeByFolder[script.folder] || '',
-                        },
-                      }}
-                      variant="contained"
-                      size="small"
-                    >
-                      View
-                    </Button>
-                  </TableCell>
+        {loading ? (
+          <Typography variant="h6">Loading scripts...</Typography>
+        ) : (
+          <TableContainer component={Paper} sx={{ mt: 2 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
+              </TableHead>
+              <TableBody>
+                {selectedData.map((script) => (
+                  <TableRow key={script.id}>
+                    <TableCell>{script.snippetName}</TableCell>
+                    <TableCell>{script.description}</TableCell>
+                    <TableCell>
+                      <Button
+                        component={RouterLink}
+                        to={`/scripts/${script.id}`}
+                        state={{
+                          snippet: {
+                            name: script.snippetName,
+                            description: script.description,
+                            folder: script.folder,
+                          },
+                        }}
+                        variant="contained"
+                        size="small"
+                      >
+                        View
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Box>
     </Container>
   );

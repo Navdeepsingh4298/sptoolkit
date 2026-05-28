@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useLocation, Link as RouterLink } from 'react-router-dom';
 import {
   Container,
@@ -10,36 +10,64 @@ import {
 } from '@mui/material';
 
 import DrawerAppBar from '../../components/appbar/DrawerAppBar';
-import jsScriptsData from '../../data/JsScripts/JsScripts.json';
-import xmlScriptsData from '../../data/xmlScripts/xmlScripts.json';
-
-const codeModules = import.meta.glob('../../data/**/code.txt', { eager: true, as: 'raw' });
-const codeByFolder = Object.fromEntries(
-  Object.entries(codeModules).map(([path, content]) => {
-    const folder = path.split('/')[path.split('/').length - 2];
-    return [folder, content];
-  })
-);
-
-const normalizeScript = (script) => ({
-  id: script.id,
-  title: script.snippetName,
-  description: script.description,
-  code: codeByFolder[script.folder] || '',
-});
-
-const allScripts = [
-  ...jsScriptsData.scripts.map(normalizeScript),
-  ...xmlScriptsData.scripts.map(normalizeScript),
-];
 
 const SnippetPage = () => {
   const { snippetId } = useParams();
   const location = useLocation();
   const routeSnippet = location.state?.snippet;
-  const fallbackSnippet = allScripts.find((script) => script.id === snippetId);
-  const snippet = routeSnippet || fallbackSnippet;
+  const [snippet, setSnippet] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadSnippet = async () => {
+      let baseSnippet = routeSnippet || null;
+      let code = '';
+
+      // Try both JsScripts and xmlScripts folders
+      const basePaths = ['JsScripts', 'xmlScripts'];
+
+      for (const base of basePaths) {
+        try {
+          const res = await fetch(`/data/${base}/${snippetId}/code.txt`);
+          if (res.ok) {
+            code = await res.text();
+            break;
+          }
+        } catch (err) {
+          console.error(`Error loading code for ${snippetId} from ${base}`, err);
+        }
+      }
+
+      if (!baseSnippet) {
+        // If no state passed, load meta.json too
+        for (const base of basePaths) {
+          try {
+            const metaRes = await fetch(`/data/${base}/${snippetId}/meta.json`);
+            if (metaRes.ok) {
+              const meta = await metaRes.json();
+              baseSnippet = {
+                id: meta.id || snippetId,
+                name: meta.snippetName || snippetId,
+                description: meta.description || '',
+                folder: snippetId,
+              };
+              break;
+            }
+          } catch (err) {
+            console.error(`Error loading meta for ${snippetId} from ${base}`, err);
+          }
+        }
+      }
+
+      if (baseSnippet) {
+        setSnippet({ ...baseSnippet, code });
+      }
+      setLoading(false);
+    };
+
+    loadSnippet();
+  }, [snippetId, routeSnippet]);
 
   const handleCopy = async () => {
     if (!snippet) return;
@@ -60,15 +88,16 @@ const SnippetPage = () => {
           Back to Script Library
         </Button>
 
-        {!snippet ? (
+        {loading ? (
+          <Typography variant="h6">Loading snippet...</Typography>
+        ) : !snippet ? (
           <Typography variant="h6" color="error">
             Snippet not found.
           </Typography>
         ) : (
-    
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} sx={{width: '100%'}}>
-              <Paper sx={{ p: 3, minHeight: 100, textAlign: 'left', }}>
+            <Grid item xs={12} md={6}>
+              <Paper sx={{ p: 3, minHeight: 100, textAlign: 'left' }}>
                 <Typography variant="h5" gutterBottom>
                   {snippet.name}
                 </Typography>
@@ -78,10 +107,23 @@ const SnippetPage = () => {
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={6} sx={{width: '100%'}}>
-              <Paper sx={{ p: 3, minHeight: 360, bgcolor: 'grey.900', color: 'common.white', position: 'relative' }}>
+            <Grid item xs={12} md={6}>
+              <Paper
+                sx={{
+                  p: 3,
+                  minHeight: 360,
+                  bgcolor: 'grey.900',
+                  color: 'common.white',
+                  position: 'relative',
+                }}
+              >
                 <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-                  <Button variant="outlined" color="inherit" size="small" onClick={handleCopy}>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    size="small"
+                    onClick={handleCopy}
+                  >
                     {copied ? 'Copied' : 'Copy'}
                   </Button>
                 </Box>
