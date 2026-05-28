@@ -47,6 +47,12 @@ const AboutPage = () => {
               <li>many more things to come!</li>
             </ul>
           </Typography>
+<Typography variant="h6" component="p" gutterBottom>
+            Creator
+          </Typography>
+            <Typography variant="body2" component="div" sx={{ textAlign: 'left' }}>
+                The SP Toolkit was solely created by <strong>Navdeep Singh</strong>, an engineer with full‑stack capabilities. Known for building robust utilities and streamlining workflows, he brings precision, speed, and care to every project. 
+            </Typography>
         </Box>
       </Box>
     </Container>
