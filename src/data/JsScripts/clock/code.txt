@@ -1,0 +1,32 @@
+<note>==========================================================
+							Start = Example 
+=================================================================
+Description: 
+Clock showing current Date and Time
+=================================================================</note>
+<html label="TodaysDate" where="survey"><div style="font-size:5rem">
+<h1>Time: <span id="currTime"></span></h1>
+<h1>Date: <span id="currDate"></span></h1>
+</div></html>
+
+<style mode="after" name="respview.client.js" with="TodaysDate" wrap="ready"><![CDATA[
+//console.log("Javascript is running");
+var CLday= new Date().toDateString();
+var CLtime= new Date().toTimeString();
+//var date= new Date().getDate();
+//var month= new Date().getMonth();
+//var year= new Date().getFullYear();
+
+//document.querySelector("#currTime").innerHTML="<b>" + CLtime + "</b>";
+document.querySelector("#currDate").innerHTML="<b>" + CLday + "</b>";
+
+setInterval(function(){
+	CLtime= new Date().toLocaleTimeString();
+	document.querySelector("#currTime").innerHTML="<b>" + CLtime + "</b>";
+	},1000);
+]]></style>
+<suspend/>
+
+<note>==========================================================
+							End = Example 
+=================================================================</note>

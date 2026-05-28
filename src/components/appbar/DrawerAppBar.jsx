@@ -22,6 +22,8 @@ import HandymanIcon from '@mui/icons-material/Handyman';
 const drawerWidth = 240;
 const navItems = {
   'Home': '/',
+  'Scripts': '/scripts',
+  'Tools': '/tools',
   'About': '/about',
   'Contact': '/contact'
 };

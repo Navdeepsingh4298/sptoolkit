@@ -1,0 +1,4 @@
+{
+  "snippetName": "Change Survey Language",
+  "description": "Updates the survey language setting dynamically in XML-based survey configuration, allowing locale-specific content presentation."
+}

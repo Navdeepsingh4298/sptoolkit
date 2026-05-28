@@ -1,0 +1,13 @@
+# Change the language within survey
+===================================
+
+<exec> cond"hCountry.r5">
+if L1.r1:
+	setLanguage('english')
+	setExtra("decLang","english")
+if L1.r2:
+	setLanguage('german')
+	setExtra("decLang","german")
+</exec>
+
+===================================

@@ -1,0 +1,28 @@
+{
+  "scripts": [
+    {
+      "id": "captcha",
+      "folder": "captcha",
+      "metaPath": "src/data/JsScripts/captcha/meta.json",
+      "codePath": "src/data/JsScripts/captcha/code.txt",
+      "snippetName": "Captcha Verification Script",
+      "description": "A simple captcha flow that generates a random 6-character code, displays it read-only, and validates user input before allowing continuation."
+    },
+    {
+      "id": "clock",
+      "folder": "clock",
+      "metaPath": "src/data/JsScripts/clock/meta.json",
+      "codePath": "src/data/JsScripts/clock/code.txt",
+      "snippetName": "Digital Clock with Current Date",
+      "description": "A real-time digital clock that displays the current date and time, updating every second with localized time formatting."
+    },
+    {
+      "id": "disableContinueBtnForXseconds",
+      "folder": "disableContinueBtnForXseconds",
+      "metaPath": "src/data/JsScripts/disableContinueBtnForXseconds/meta.json",
+      "codePath": "src/data/JsScripts/disableContinueBtnForXseconds/code.txt",
+      "snippetName": "Disable Button for X Seconds",
+      "description": "Disables continue/finish buttons for a specified timeout duration (in seconds), then re-enables them. Useful for preventing premature form submission or action execution."
+    }
+  ]
+}

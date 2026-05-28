@@ -1,0 +1,4 @@
+{
+  "snippetName": "Dynamic Minimum Rank",
+  "description": "Defines dynamic rank-based criteria within XML rulesets to select the minimum valid rank and adapt behavior for varying survey flows."
+}

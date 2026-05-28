@@ -8,10 +8,9 @@ import HomePage from './pages/Home/HomePage'
 import AboutPage from './pages/About/AboutPage'
 import ContactPage from "./pages/Contact/ContactPage"
 import NotFoundPage from './pages/NotFound/NotFoundPage';
-
-//components
-import Header from "./components/header/Header.component"
-import AppBar from "./components/appbar/DrawerAppBar"
+import ScriptLibrary from './pages/scriptLib/ScriptLibrary';
+import SnippetPage from './pages/snippet/SnippetPage';
+import ToolsPage from './pages/Tools/ToolsPage';
 
 
 function App() {
@@ -22,6 +21,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/scripts" element={<ScriptLibrary />} />
+          <Route path="/scripts/:snippetId" element={<SnippetPage />} />
+          <Route path="/tools" element={<ToolsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

@@ -1,0 +1,66 @@
+
+  <exec when="init">
+def cap_rand():
+    import random
+    p.randomGen=''.join(random.choice('123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
+    print p.randomGen
+  </exec>
+
+  <suspend/>
+
+  <exec>
+cap_rand()
+print p.randomGen
+
+p.counter = 0
+  </exec>
+
+  <suspend/>
+
+  <text 
+   label="QS0Display"
+   size="5">
+    <title>Please enter the code exactly as it appears in the image below and then click "Continue" to continue.
+  &lt;style&gt;
+  input.text-input{width:190px !important;}
+  &lt;/style&gt;
+  </title>
+    <exec>
+QS0Display.val = p.randomGen
+    </exec>
+
+    <style name="question.after" wrap="ready"><![CDATA[
+jQuery('.element.even').find('input').attr('readonly', true).css('background-color','#D3D3D3').css('font-size','30px').css('padding-left','30px').css('width','190px!important');;
+
+          $ ('.element.even').find('input').bind('cut copy', function(e) {
+              e.preventDefault();
+            });
+]]></style>
+  </text>
+
+  <text 
+   label="QS0"
+   below="QS0Display"
+   keepWith="QS0Display"
+   size="6">
+    <title>&amp;nbsp</title>
+    <validate>
+if QS0.val != p.randomGen or QS0.ival == 0:
+    p.counter=p.counter+1
+    if p.counter le 3:
+        cap_rand()
+        error("Please enter the correct code.")
+    </validate>
+
+    <row label="r1">&amp;nbsp;</row>
+  </text>
+
+  <suspend/>
+
+  <term label="QS0Term" cond="QS0.val != p.randomGen" sst="0">QS0 Term: Captcha did not matched after 4 attempts</term>
+
+  <exec>
+del p.counter
+  </exec>
+
+  <suspend/>

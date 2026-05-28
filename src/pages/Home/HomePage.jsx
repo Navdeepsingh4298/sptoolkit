@@ -10,6 +10,7 @@ import {
   CardContent,
   CardActions,
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 // local components
 import DrawerAppBar from '../../components/appbar/DrawerAppBar';
@@ -40,7 +41,13 @@ const HomePage = () => {
                 </Typography>
               </CardContent>
               <CardActions sx={{ mt: 'auto' }}>
-                <Button size="small" variant="contained" disableElevation>
+                <Button
+                  component={RouterLink}
+                  to="/scripts"
+                  size="small"
+                  variant="contained"
+                  disableElevation
+                >
                   Explore snippets
                 </Button>
               </CardActions>
@@ -58,7 +65,13 @@ const HomePage = () => {
                 </Typography>
               </CardContent>
               <CardActions sx={{ mt: 'auto' }}>
-                <Button size="small" variant="contained" disableElevation>
+                <Button
+                  component={RouterLink}
+                  to="/tools"
+                  size="small"
+                  variant="contained"
+                  disableElevation
+                >
                   Try helper tools
                 </Button>
               </CardActions>

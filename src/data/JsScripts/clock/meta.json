@@ -1,0 +1,4 @@
+{
+  "snippetName": "Digital Clock with Current Date",
+  "description": "A real-time digital clock that displays the current date and time, updating every second with localized time formatting."
+}

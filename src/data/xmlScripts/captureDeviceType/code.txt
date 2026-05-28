@@ -1,0 +1,29 @@
+# Capture device type
+==============================
+If you ever need device type to be captured or if filters on devices are required, you can use the below syntax in a radio:
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+<radio 
+ label="dDeviceType"
+ noTranslate="comment,title"
+ optional="1"
+ randomize="0"
+ where="execute,survey,report">
+ <title>DUMMY QUESTION -- Device Type</title>
+ <exec>
+if gv.request.device.desktop:
+    dDeviceType.val = dDeviceType.r1.index
+elif gv.request.device.tablet:
+    dDeviceType.val = dDeviceType.r2.index
+elif gv.request.device.smartphone:
+    dDeviceType.val = dDeviceType.r3.index
+ </exec>
+ <row label="r1" value="1">Desktop/Laptop</row>
+ <row label="r2" value="2">Tablet</row>
+ <row label="r3" value="3">Smartphone</row>
+</radio>
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------

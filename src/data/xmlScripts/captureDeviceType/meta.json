@@ -1,0 +1,4 @@
+{
+  "snippetName": "Capture Device Type",
+  "description": "Detects the type of capture device in XML data and provides a reusable tag structure for device-specific workflows."
+}
