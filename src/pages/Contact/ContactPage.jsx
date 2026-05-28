@@ -33,17 +33,6 @@ const ContactPage = () => {
           missing feature, or anything that could be better.
         </Typography>
 
-        <Button
-          variant="contained"
-          color="primary"
-          href={repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{ textTransform: 'none', fontWeight: 600 }}
-        >
-          View GitHub Repository
-        </Button>
-
         <Box sx={{ mt: 4 }}>
           <Typography variant="subtitle1" gutterBottom>
             GitHub repository:
