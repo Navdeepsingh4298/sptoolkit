@@ -1,0 +1,95 @@
+    <select 
+    label="Z9"
+    optional="0">
+      <title>What State do you live in?</title>
+      <style name="page.head"><![CDATA[
+<script>
+    $ ( document ).ready(function() {
+            $ (".input.dropdown").css({"font-family":"Arial, sans-serif"})
+    });
+</script>
+]]></style>
+      <choice label="rAL" value="1">Alabama</choice>
+      <choice label="rAK" value="2">Alaska</choice>
+      <choice label="rAZ" value="3">Arizona</choice>
+      <choice label="rAR" value="4">Arkansas</choice>
+      <choice label="rCA" value="5">California</choice>
+      <choice label="rCO" value="6">Colorado</choice>
+      <choice label="rCT" value="7">Connecticut</choice>
+      <choice label="rDE" value="8">Delaware</choice>
+      <choice label="rFL" value="9">Florida</choice>
+      <choice label="rGA" value="10">Georgia</choice>
+      <choice label="rHI" value="11">Hawaii</choice>
+      <choice label="rID" value="12">Idaho</choice>
+      <choice label="rIL" value="13">Illinois</choice>
+      <choice label="rIN" value="14">Indiana</choice>
+      <choice label="rIA" value="15">Iowa</choice>
+      <choice label="rKS" value="16">Kansas</choice>
+      <choice label="rKY" value="17">Kentucky</choice>
+      <choice label="rLA" value="18">Louisiana</choice>
+      <choice label="rME" value="19">Maine</choice>
+      <choice label="rMD" value="20">Maryland</choice>
+      <choice label="rMA" value="21">Massachusetts</choice>
+      <choice label="rMI" value="22">Michigan</choice>
+      <choice label="rMN" value="23">Minnesota</choice>
+      <choice label="rMS" value="24">Mississippi</choice>
+      <choice label="rMO" value="25">Missouri</choice>
+      <choice label="rMT" value="26">Montana</choice>
+      <choice label="rNE" value="27">Nebraska</choice>
+      <choice label="rNV" value="28">Nevada</choice>
+      <choice label="rNH" value="29">New Hampshire</choice>
+      <choice label="rNJ" value="30">New Jersey</choice>
+      <choice label="rNM" value="31">New Mexico</choice>
+      <choice label="rNY" value="32">New York</choice>
+      <choice label="rNC" value="33">North Carolina</choice>
+      <choice label="rND" value="34">North Dakota</choice>
+      <choice label="rOH" value="35">Ohio</choice>
+      <choice label="rOK" value="36">Oklahoma</choice>
+      <choice label="rOR" value="37">Oregon</choice>
+      <choice label="rPA" value="38">Pennsylvania</choice>
+      <choice label="rRI" value="39">Rhode Island</choice>
+      <choice label="rSC" value="40">South Carolina</choice>
+      <choice label="rSD" value="41">South Dakota</choice>
+      <choice label="rTN" value="42">Tennessee</choice>
+      <choice label="rTX" value="43">Texas</choice>
+      <choice label="rUT" value="44">Utah</choice>
+      <choice label="rVT" value="45">Vermont</choice>
+      <choice label="rVA" value="46">Virginia</choice>
+      <choice label="rWA" value="47">Washington</choice>
+      <choice label="rWV" value="48">West Virginia</choice>
+      <choice label="rWI" value="49">Wisconsin</choice>
+      <choice label="rWY" value="50">Wyoming</choice>
+      <choice label="rAS" value="51" where="report">American Samoa</choice>
+      <choice label="rDC" value="52">District of Columbia</choice>
+      <choice label="rFM" value="53" where="report">Federated States of Micronesia</choice>
+      <choice label="rGU" value="54" where="report">Guam</choice>
+      <choice label="rMH" value="55" where="report">Marshall Islands</choice>
+      <choice label="rMP" value="56" where="report">Northern Mariana Islands</choice>
+      <choice label="rPW" value="57" where="report">Palau</choice>
+      <choice label="rPR" value="58" where="report">Puerto Rico</choice>
+      <choice label="rVI" value="59" where="report">Virgin Islands</choice>
+      <choice label="rAE" value="60" where="report">Armed Forces (AE)</choice>
+      <choice label="rXX" value="99" where="report">Other / no State Data / invalid zipcode</choice>
+    </select>
+
+    <suspend/>
+    
+    
+        <radio 
+    label="QCFlag_Z9"
+    optional="1"
+    where="execute,survey,report" translateable="0">
+      <title>FLAG if D1 State not equal to State_US</title>
+      <exec>
+QID=QCFlag_Z9
+QID.val = QID.r0.index
+if Z9.selected.label != State_US.selected.label:
+    QID.val = QID.r1.index
+      </exec>
+
+      <row label="r0" value="0">Flag Pass</row>
+      <row label="r1" value="1">Flag Fail</row>
+    </radio>
+
+    <suspend/>
+    

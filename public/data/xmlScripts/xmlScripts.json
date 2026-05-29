@@ -17,6 +17,24 @@
       "folder": "dynamixMinRank",
       "metaPath": "/data/xmlScripts/dynamixMinRank/meta.json",
       "codePath": "/data/xmlScripts/dynamixMinRank/code.txt"
+    },
+    {
+      "id": "QCFlag",
+      "folder": "QCFlag",
+      "metaPath": "/data/xmlScripts/QCFlag/meta.json",
+      "codePath": "/data/xmlScripts/QCFlag/code.txt"
+    },
+    {
+      "id": "QCFlagAge",
+      "folder": "QCFlagAge",
+      "metaPath": "/data/xmlScripts/QCFlagAge/meta.json",
+      "codePath": "/data/xmlScripts/QCFlagAge/code.txt"
+    },
+    {
+      "id": "QCFlagStateUS",
+      "folder": "QCFlagStateUS",
+      "metaPath": "/data/xmlScripts/QCFlagStateUS/meta.json",
+      "codePath": "/data/xmlScripts/QCFlagStateUS/code.txt"
     }
   ]
 }

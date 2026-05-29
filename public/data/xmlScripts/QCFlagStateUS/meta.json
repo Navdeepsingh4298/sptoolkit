@@ -1,0 +1,5 @@
+{
+  "snippetName": "QC Flag - US State",
+  "oneLineDescription": "QCFlag US State template question",
+  "description": "This question is designed to flag US state values that are invalid or do not conform to expected formats. It helps identify potential data entry errors or inconsistencies in the dataset. The question typically checks if the state value is a valid two-letter abbreviation (e.g., CA for California, NY for New York) or if it matches a predefined list of US states. If the state value is invalid, it can be flagged for further review or correction."
+}

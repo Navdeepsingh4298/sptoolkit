@@ -1,0 +1,5 @@
+{
+  "snippetName": "QC Flag - Age",
+  "oneLineDescription": "QCFlag Age template question",
+  "description": "This question is used to flag age values that are outside of a reasonable range. It helps identify potential data entry errors or outliers in the dataset. The question typically asks if the age value is less than 0 or greater than a certain threshold (e.g., 120 years). If the age value falls outside of this range, it can be flagged for further review or correction."
+}

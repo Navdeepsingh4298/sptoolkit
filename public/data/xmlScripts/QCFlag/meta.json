@@ -1,0 +1,5 @@
+{
+  "snippetName": "QC Flag",
+  "oneLineDescription": "QCFlag template question",
+  "description": "QCFlag is a versatile XML snippet used to set quality control flags based on specific conditions within survey flows, enabling dynamic adjustments to survey logic and data handling."
+}

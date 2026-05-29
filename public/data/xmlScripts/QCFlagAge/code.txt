@@ -1,0 +1,83 @@
+ <block label="ageBlock">
+    <number 
+    label="Age_Numeric"
+    altlabel="S1"
+    optional="0"
+    size="3"
+    ss:rowClassNames="IsExcluded"
+    verify="range(0,130)">
+      <title>What is your age?</title>
+      <comment><em>Enter a whole number</em></comment>
+    </number>
+
+    <suspend/>
+
+    <term label="Term_Age1" cond="Age_Numeric.ival lt 18">S1 (Age): Under 18</term>
+
+    <suspend/>
+
+    <exec when="init">
+ageList = [ (0,17), (18,24), (25,34), (35,44), (45,54), (55,64), (65,130)]
+    </exec>
+
+    <exec>
+age = Age_Numeric.val
+for ageRange in ageList:
+    if age ge ageRange[0] and age le ageRange[1]:
+        Age_Group.val = ageList.index(ageRange)
+        break
+    </exec>
+
+    <suspend/>
+
+    <select 
+    label="Age_Group"
+    translateable="0"
+    where="execute,survey,report">
+      <title>What is your age?</title>
+      <choice label="r1">Under 18</choice>
+      <choice label="r2">18-24</choice>
+      <choice label="r3">25-34</choice>
+      <choice label="r4">35-44</choice>
+      <choice label="r5">45-54</choice>
+      <choice label="r6">55-64</choice>
+      <choice label="r7">65 or older</choice>
+      <choice label="r8">Prefer not to answer</choice>
+    </select>
+
+    <suspend/>
+  </block>
+
+   <number 
+    label="QFinal"
+    optional="0"
+    size="4"
+    verify="range(1900, 2010)">
+      <title>What year were you born?</title>
+    </number>
+
+    <suspend/>
+
+    <radio 
+    label="QCFlag_QFinal"
+    optional="1"
+    where="execute,survey,report">
+      <title>FLAG if more than +/- 1 year of age</title>
+      <exec>
+from datetime import date
+today = date.today()
+print (date.today(),today.day, today.month, today.year) 
+
+QCFlag_QFinal.val = QCFlag_QFinal.r0.index
+currAge = today.year - QFinal.val
+ageDiff = currAge - Age_Numeric.val
+print ("ageDiff:", ageDiff)
+if abs(ageDiff) gt 1:
+    QCFlag_QFinal.val = QCFlag_QFinal.r1.index
+</exec>
+
+      <row label="r0" value="0">Flag Pass</row>
+      <row label="r1" value="1">Flag Fail</row>
+    </radio>
+
+    <suspend/>

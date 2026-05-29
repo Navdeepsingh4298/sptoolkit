@@ -1,0 +1,16 @@
+  <radio 
+  label="QCFlag_Q8"
+  where="execute,survey,report" optional="1" translateable="0">
+  <title>Hidden :: Flag if "Dummy" selected</title>
+  <exec>
+qid = QCFlag_Q8
+qid.val = qid.r0.index
+if (condition at which it should flag fail):
+	qid.val = qid.r1.index
+  </exec>
+
+  <row label="r0" value="0">Flag Pass</row>
+  <row label="r1" value="1">Flag Fail/Flagged</row>
+</radio>
+
+<suspend/>
