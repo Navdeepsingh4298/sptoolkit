@@ -1,4 +1,5 @@
 {
   "snippetName": "Captcha Verification Script",
+  "oneLineDescription": "A simple captcha flow that generates a random 6-character code, displays it read-only, and validates user input before allowing continuation.",
   "description": "A simple captcha flow that generates a random 6-character code, displays it read-only, and validates user input before allowing continuation."
 }

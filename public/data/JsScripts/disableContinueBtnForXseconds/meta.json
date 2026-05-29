@@ -1,4 +1,5 @@
 {
   "snippetName": "Disable Button for X Seconds",
+  "oneLineDescription": "Disables continue/finish buttons for a specified timeout duration (in seconds), then re-enables them. Useful for preventing premature form submission or action execution.",
   "description": "Disables continue/finish buttons for a specified timeout duration (in seconds), then re-enables them. Useful for preventing premature form submission or action execution."
 }

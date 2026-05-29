@@ -1,4 +1,5 @@
 {
   "snippetName": "Dynamic Minimum Rank",
-  "description": "Defines dynamic rank-based criteria within XML rulesets to select the minimum valid rank and adapt behavior for varying survey flows."
+  "oneLineDescription": "Defines dynamic rank-based criteria within XML rulesets to select the minimum valid rank and adapt behavior for varying survey flows.",
+  "description": "Defines dynamic rank-based criteria within XML rulesets to select the minimum valid rank and adapt behavior for varying survey flows. This snippet allows for flexible survey logic that can adjust to different user ranks, ensuring that the minimum rank requirement is met dynamically based on the context of the survey flow."
 }

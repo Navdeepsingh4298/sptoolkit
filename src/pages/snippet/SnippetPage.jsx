@@ -21,48 +21,47 @@ const SnippetPage = () => {
 
   useEffect(() => {
     const loadSnippet = async () => {
-      let baseSnippet = routeSnippet || null;
-      let code = '';
+      let baseSnippet = routeSnippet ? { ...routeSnippet } : null;
+      let code = routeSnippet?.code || '';
+      let folder = routeSnippet?.folder || snippetId;
 
-      // Try both JsScripts and xmlScripts folders
       const basePaths = ['JsScripts', 'xmlScripts'];
 
-      for (const base of basePaths) {
-        try {
-          const res = await fetch(`/data/${base}/${snippetId}/code.txt`);
-          if (res.ok) {
-            code = await res.text();
-            break;
-          }
-        } catch (err) {
-          console.error(`Error loading code for ${snippetId} from ${base}`, err);
-        }
-      }
-
       if (!baseSnippet) {
-        // If no state passed, load meta.json too
-        for (const base of basePaths) {
+        const searchBases = basePaths;
+
+        for (const base of searchBases) {
           try {
-            const metaRes = await fetch(`/data/${base}/${snippetId}/meta.json`);
+            const metaRes = await fetch(`/data/${base}/${folder}/meta.json`);
             if (metaRes.ok) {
               const meta = await metaRes.json();
               baseSnippet = {
                 id: meta.id || snippetId,
                 name: meta.snippetName || snippetId,
                 description: meta.description || '',
-                folder: snippetId,
+                folder,
               };
               break;
             }
           } catch (err) {
-            console.error(`Error loading meta for ${snippetId} from ${base}`, err);
+            console.error(`Error loading meta for ${folder} from ${base}`, err);
           }
         }
       }
 
-      if (baseSnippet) {
-        setSnippet({ ...baseSnippet, code });
+      if (!baseSnippet) {
+        baseSnippet = {
+          id: snippetId,
+          name: snippetId,
+          description: 'Snippet metadata not available.',
+          folder,
+        };
       }
+
+      setSnippet({
+        ...baseSnippet,
+        code: code || 'Unable to load snippet code.',
+      });
       setLoading(false);
     };
 
@@ -96,7 +95,7 @@ const SnippetPage = () => {
           </Typography>
         ) : (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{width: '100%'}}>
               <Paper sx={{ p: 3, minHeight: 100, textAlign: 'left' }}>
                 <Typography variant="h5" gutterBottom>
                   {snippet.name}
@@ -107,7 +106,7 @@ const SnippetPage = () => {
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{width: '100%'}}>
               <Paper
                 sx={{
                   p: 3,

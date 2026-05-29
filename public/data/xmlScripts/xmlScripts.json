@@ -3,26 +3,20 @@
     {
       "id": "captureDeviceType",
       "folder": "captureDeviceType",
-      "metaPath": "src/data/xmlScripts/captureDeviceType/meta.json",
-      "codePath": "src/data/xmlScripts/captureDeviceType/code.txt",
-      "snippetName": "Capture Device Type",
-      "description": "Detects the type of capture device in XML data and provides a reusable tag structure for device-specific workflows."
+      "metaPath": "/data/xmlScripts/captureDeviceType/meta.json",
+      "codePath": "/data/xmlScripts/captureDeviceType/code.txt"
     },
     {
       "id": "changeSurveyLang",
       "folder": "changeSurveyLang",
-      "metaPath": "src/data/xmlScripts/changeSurveyLang/meta.json",
-      "codePath": "src/data/xmlScripts/changeSurveyLang/code.txt",
-      "snippetName": "Change Survey Language",
-      "description": "Updates the survey language setting dynamically in XML-based survey configuration, allowing locale-specific content presentation."
+      "metaPath": "/data/xmlScripts/changeSurveyLang/meta.json",
+      "codePath": "/data/xmlScripts/changeSurveyLang/code.txt"
     },
     {
       "id": "dynamixMinRank",
       "folder": "dynamixMinRank",
-      "metaPath": "src/data/xmlScripts/dynamixMinRank/meta.json",
-      "codePath": "src/data/xmlScripts/dynamixMinRank/code.txt",
-      "snippetName": "Dynamic Minimum Rank",
-      "description": "Defines dynamic rank-based criteria within XML rulesets to select the minimum valid rank and adapt behavior for varying survey flows."
+      "metaPath": "/data/xmlScripts/dynamixMinRank/meta.json",
+      "codePath": "/data/xmlScripts/dynamixMinRank/code.txt"
     }
   ]
 }

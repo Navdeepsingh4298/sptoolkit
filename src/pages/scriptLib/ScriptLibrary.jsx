@@ -30,6 +30,25 @@ const ScriptLibrary = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const loadScriptDetails = async (scripts = []) => {
+      return await Promise.all(
+        scripts.map(async (script) => {
+          try {
+            const [metaRes, codeRes] = await Promise.all([
+              fetch(script.metaPath),
+              fetch(script.codePath),
+            ]);
+            const meta = metaRes.ok ? await metaRes.json() : {};
+            const code = codeRes.ok ? await codeRes.text() : "";
+            return { ...script, meta, code };
+          } catch (scriptErr) {
+            console.error(`Failed to load details for ${script.id}:`, scriptErr);
+            return { ...script, meta: {}, code: "" };
+          }
+        })
+      );
+    };
+
     const loadData = async () => {
       try {
         // Load categories
@@ -48,8 +67,11 @@ const ScriptLibrary = () => {
         const jsData = jsRes.ok ? await jsRes.json() : { scripts: [] };
         const xmlData = xmlRes.ok ? await xmlRes.json() : { scripts: [] };
 
-        setJsScriptsData(jsData);
-        setXmlScriptsData(xmlData);
+        const jsScripts = await loadScriptDetails(jsData.scripts || []);
+        const xmlScripts = await loadScriptDetails(xmlData.scripts || []);
+
+        setJsScriptsData({ scripts: jsScripts });
+        setXmlScriptsData({ scripts: xmlScripts });
       } catch (err) {
         console.error("Error loading script data:", err);
       } finally {
@@ -133,29 +155,34 @@ const ScriptLibrary = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {selectedData.map((script) => (
-                  <TableRow key={script.id}>
-                    <TableCell>{script.snippetName}</TableCell>
-                    <TableCell>{script.description}</TableCell>
-                    <TableCell>
-                      <Button
-                        component={RouterLink}
-                        to={`/scripts/${script.id}`}
-                        state={{
-                          snippet: {
-                            name: script.snippetName,
-                            description: script.description,
-                            folder: script.folder,
-                          },
-                        }}
-                        variant="contained"
-                        size="small"
-                      >
-                        View
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {selectedData.map((script) => {
+                  const meta = script.meta || {};
+                  return (
+                    <TableRow key={script.id}>
+                      <TableCell>{meta.snippetName || script.id}</TableCell>
+                      <TableCell>{meta.oneLineDescription || "No description available."}</TableCell>
+                      <TableCell>
+                        <Button
+                          component={RouterLink}
+                          to={`/scripts/${script.id}`}
+                          state={{
+                            snippet: {
+                              name: meta.snippetName || script.id,
+                              description: meta.description || meta.oneLineDescription || "",
+                              oneLineDescription: meta.oneLineDescription || "",
+                              folder: script.folder,
+                              code: script.code || "",
+                            },
+                          }}
+                          variant="contained"
+                          size="small"
+                        >
+                          View
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
